@@ -38,4 +38,15 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
+const db = require("./models");
+db.sequelize
+  .sync()
+  .then(() => {
+    console.log("Synced db.");
+  })
+  .catch((err) => {
+    console.log("Failed to sync db: " + err.message);
+  });
+
+
 module.exports = app;
