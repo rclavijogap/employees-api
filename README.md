@@ -22,6 +22,7 @@ DB_NAME=employees_db
 DB_USER=employees_user
 DB_PASSWORD=employees_password
 DB_DIALECT=mysql
+JWT_SECRET=someJWtSecret123$_
 
 ```
 
@@ -35,36 +36,52 @@ npm install
 npm start
 ```
 ## Services 
-### Create/Update an employee
+### Users
+#### Sign Up
+```bash
+curl --location --request POST 'http://localhost:3000/users/signup' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "email": "robertoclavijo@gap.com",
+    "password": "somePassword"
+}'
+```
+#### Sing In
+```bash
+curl --location --request POST 'http://localhost:3000/users/signin' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "email": "robertoclavijo@gap.com",
+    "password": "somePassword"
+}'
+```
+Response
+```json
+{ "token": "theAccessToken"}
+```
+**NOTE: Include authorization header in all request starting with Bearer**
+### Employees
+#### Create/Update an employee
 If 'id' field does not exist it will be auto-generated
 ```bash
 curl --location --request POST 'http://localhost:3000/employees' \
+--header 'Authorization: Bearer theAccessToken' \
 --header 'Content-Type: application/json' \
 --data-raw '{
-    "id": 1234,
+    "id": 11,
     "name": "Juan",
     "surname": "Connor",
     "level": "Senior",
     "salary": 2360.47
 }'
 ```
-### Get an employee by id
+#### Get an employee by id
 ```bash
-curl --location --request GET 'http://localhost:3000/employees/1234'
+curl --location --request GET 'http://localhost:3000/employees/1234' \
+--header 'Authorization: Bearer theAccessToken'
 ```
-Response
-```json
-{
-    "id": 1234,
-    "name": "Juan",
-    "surname": "Connor",
-    "level": "Senior",
-    "salary": "2360.47",
-    "createdAt": "2022-10-21T03:01:15.000Z",
-    "updatedAt": "2022-10-21T03:03:24.000Z"
-}
-```
-### Delete an employee by id
+#### Delete an employee by id
 ```bash
-curl --location --request DELETE 'http://localhost:3000/employees/1234'
+curl --location --request DELETE 'http://localhost:3000/employees/12345' \
+--header 'Authorization: Bearer theAccessToken'
 ```
