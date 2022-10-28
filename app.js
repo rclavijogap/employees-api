@@ -12,7 +12,7 @@ const security = require('./utils/security');
 var app = express();
 
 app.use(function(req, res, next){
-  if (req.url !== "/users/signin" || req.url !== "/users/signup") {
+  if (req.url !== "/users/signin" && req.url !== "/users/signup") {
     const accessToken = req.headers.authorization;
     if (!accessToken) {
       res.statusCode = 401;
