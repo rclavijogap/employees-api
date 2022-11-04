@@ -22,6 +22,8 @@ app.use(function(req, res, next){
 
     try {
       security.validateAccessToken(accessToken);
+      const userData = security.decodeToken(accessToken);
+      res.set('authorization', `Bearer ${security.generateAccessToken(userData.user)}`);
     } catch (error) {
       res.statusCode = 401;
       res.send(error.message);

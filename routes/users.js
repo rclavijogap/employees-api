@@ -28,7 +28,8 @@ router.post("/signin", function (req, res, next) {
           res.send(`There are no users with the given email [${req.body.email}]`);
           return;
         }
-        const token = security.generateAccessToken(data.get({ plain: true }));
+        const userData = { user: data.get({ plain: true })}
+        const token = security.generateAccessToken(userData);
 
         res.send({token});
       })
