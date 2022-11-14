@@ -7,30 +7,31 @@ var morgan = require('morgan');
 var indexRouter = require('./routes/index');
 var employeesRouter = require('./routes/employees');
 var usersRouter = require('./routes/users');
+var logsRouter = require('./routes/logs');
 const security = require('./utils/security');
 var winston = require('./config/winston');
 
 var app = express();
 
 app.use(function(req, res, next){
-  if (req.url !== "/users/signin" && req.url !== "/users/signup") {
-    const accessToken = req.headers.authorization;
-    if (!accessToken) {
-      res.statusCode = 401;
-      res.send("Unauthorized");
-      return;
-    }
+  // if (req.url !== "/users/signin" && req.url !== "/users/signup") {
+  //   const accessToken = req.headers.authorization;
+  //   if (!accessToken) {
+  //     res.statusCode = 401;
+  //     res.send("Unauthorized");
+  //     return;
+  //   }
 
-    try {
-      security.validateAccessToken(accessToken);
-      const userData = security.decodeToken(accessToken);
-      res.set('authorization', `Bearer ${security.generateAccessToken(userData.user)}`);
-    } catch (error) {
-      res.statusCode = 401;
-      res.send(error.message);
-      return;
-    }
-  }
+  //   try {
+  //     security.validateAccessToken(accessToken);
+  //     const userData = security.decodeToken(accessToken);
+  //     res.set('authorization', `Bearer ${security.generateAccessToken(userData.user)}`);
+  //   } catch (error) {
+  //     res.statusCode = 401;
+  //     res.send(error.message);
+  //     return;
+  //   }
+  // }
   next();
 });
 
@@ -47,6 +48,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/employees', employeesRouter);
 app.use('/users', usersRouter);
+app.use('/logs', logsRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
