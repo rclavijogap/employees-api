@@ -85,3 +85,9 @@ curl --location --request GET 'http://localhost:3000/employees/1234' \
 curl --location --request DELETE 'http://localhost:3000/employees/12345' \
 --header 'Authorization: Bearer theAccessToken'
 ```
+### Logs
+To download logs in zip file use the next endpoint. To specify the log level use the 'level' param
+```bash
+curl --location --request GET 'http://localhost:3000/logs/download?level=info' \
+--header 'Authorization: Bearer theAccessToken
+```
